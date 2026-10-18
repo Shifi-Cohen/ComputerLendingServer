@@ -3,8 +3,11 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
-# dotenv files
+# dotenv files. .env.example stays tracked as a template.
 .env
+.env.*
+!.env.example
+
 
 # User-specific files
 *.rsuser

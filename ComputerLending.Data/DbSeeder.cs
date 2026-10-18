@@ -6,10 +6,20 @@ namespace ComputerLending.Data;
 
 public static class DbSeeder
 {
-    public static async Task SeedAsync(AppDbContext db, CancellationToken cancellationToken = default)
+    public static async Task SeedAsync(
+        AppDbContext db,
+        string? adminPassword,
+        string? borrowerPassword,
+        CancellationToken cancellationToken = default)
     {
         if (await db.Users.AsNoTracking().AnyAsync(cancellationToken))
             return;
+
+        if (string.IsNullOrWhiteSpace(adminPassword) || string.IsNullOrWhiteSpace(borrowerPassword))
+        {
+            throw new InvalidOperationException(
+                "Seed passwords are missing. Set Seed:AdminPassword and Seed:BorrowerPassword.");
+        }
 
         var now = DateTime.UtcNow;
 
@@ -17,7 +27,7 @@ public static class DbSeeder
         {
             FullName = "Admin Demo",
             Email = "admin@demo.com",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!"),
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(adminPassword),
             Role = UserRole.Admin,
             CreatedAtUtc = now
         };
@@ -26,7 +36,7 @@ public static class DbSeeder
         {
             FullName = "User Demo",
             Email = "user@demo.com",
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword("User123!"),
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(borrowerPassword),
             Role = UserRole.Borrower,
             CreatedAtUtc = now
         };

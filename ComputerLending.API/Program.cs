@@ -33,7 +33,7 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 if (string.IsNullOrWhiteSpace(connectionString))
 {
     throw new InvalidOperationException(
-        "Connection string 'Default' is missing. Set ConnectionStrings:Default in appsettings.json.");
+        "Connection string 'Default' is missing. Set ConnectionStrings:Default.");
 }
 
 connectionString = NpgsqlConnectionStrings.Normalize(connectionString);
@@ -46,7 +46,7 @@ var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOption
 if (string.IsNullOrWhiteSpace(jwt.Key) || jwt.Key.Length < 32)
 {
     throw new InvalidOperationException(
-        "Jwt:Key is missing or too short. Set Jwt:Key in appsettings.json.");
+        "Jwt:Key is missing or too short. Set Jwt:Key (at least 32 characters).");
 }
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
@@ -132,7 +132,10 @@ await using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
-    await DbSeeder.SeedAsync(db);
+    await DbSeeder.SeedAsync(
+        db,
+        app.Configuration["Seed:AdminPassword"],
+        app.Configuration["Seed:BorrowerPassword"]);
 }
 
 app.UseForwardedHeaders();

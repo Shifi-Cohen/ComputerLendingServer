@@ -8,10 +8,10 @@
 
 ## הרצה מקומית
 
-צריך Docker עם PostgreSQL. ה-connection string ו-`Jwt:Key` כבר נמצאים ב-`ComputerLending.API/appsettings.json`. המשתמש, הסיסמה והפורט של הקונטיינר צריכים להתאים ל-connection string.
+צריך Docker עם PostgreSQL. מעתיקים את `ComputerLending.API/appsettings.Development.example.json` ל-`appsettings.Development.json` (הקובץ הזה לא נכנס לגיט) וממלאים בו את ה-connection string, את `Jwt:Key`, ואת סיסמאות ה-Seed. המשתמש, הסיסמה והפורט של הקונטיינר צריכים להתאים ל-connection string.
 
 ```bash
-docker run --name pg -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=REDACTED -p 5432:5432 -d postgres
+docker run --name pg -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=YOUR_PASSWORD_HERE -p 5432:5432 -d postgres
 ```
 
 אם הקונטיינר `pg` כבר קיים:
@@ -32,8 +32,8 @@ dotnet run --project ComputerLending.API --launch-profile http
 
 | תפקיד | אימייל | סיסמה |
 | --- | --- | --- |
-| Admin | admin@demo.com | Admin123! |
-| Borrower | user@demo.com | User123! |
+| Admin | admin@demo.com | הערך של `Seed:AdminPassword` |
+| Borrower | user@demo.com | הערך של `Seed:BorrowerPassword` |
 
 Admin נוצר רק ב-Seed. הרשמה דרך ה-API יוצרת Borrower.
 
@@ -50,6 +50,7 @@ Admin נוצר רק ב-Seed. הרשמה דרך ה-API יוצרת Borrower.
 3. משתני סביבה בשרת:
    - `ConnectionStrings__Default` — כתובת בפורמט `Host=...;Port=5432;Database=...;Username=...;Password=...`. כתובת `postgres://user:pass@host:5432/db` מתקבלת גם היא, והשרת ממיר אותה בעלייה. ל-Internal URL אין צורך ב-SSL. ל-External URL (מארח עם נקודה) השרת מוסיף `SSL Mode=Require`. אם כותבים את המחרוזת ידנית ל-External URL, מוסיפים גם `Trust Server Certificate=true`.
    - `Jwt__Key` — מחרוזת באורך 32 תווים לפחות. ב-Blueprint המפתח נוצר אוטומטית.
+   - `Seed__AdminPassword` ו-`Seed__BorrowerPassword` — סיסמאות משתמשי הדמו. נדרשות רק כשמסד הנתונים עדיין ריק וה-Seed רץ.
    - `ASPNETCORE_ENVIRONMENT=Production`
 4. ה-CORS כולל את `http://localhost:5173` ואת `https://computer-lending-client.onrender.com`. אם כתובת האתר ב-Render שונה, מוסיפים `Cors__Origins__1` עם הכתובת המלאה, בלי סלאש בסוף.
 5. בדיקת חיים: `GET /health` מחזיר 200. Swagger נמצא ב-`/swagger`.

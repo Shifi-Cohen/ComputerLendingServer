@@ -41,7 +41,7 @@ Core לא תלוי באף אחד. לכן אפשר להחליף PostgreSQL בלי
 ## עוד כללים קצרים
 
 - תאריכים רק `DateTime.UtcNow` (Kind=Utc). אחרת Npgsql זורק.
-- חיבור ל-DB ומפתח ה-JWT ב-`appsettings.json`.
+- חיבור ל-DB, מפתח ה-JWT וסיסמאות ה-Seed ב-`appsettings.Development.json` (לא בגיט), או במשתני סביבה.
 - שני תפקידים: Admin מנהל מלאי; Borrower מלווה ומחזירה.
 - בעליית השרת רצות מיגרציות ו-Seed לבד. לפני הרצה: `docker start pg`.
-- דמו: `admin@demo.com` / `Admin123!` ו-`user@demo.com` / `User123!`.
+- דמו: `admin@demo.com` ו-`user@demo.com`. הסיסמאות הן `Seed:AdminPassword` ו-`Seed:BorrowerPassword`.
