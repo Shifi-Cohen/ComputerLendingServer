@@ -1,0 +1,26 @@
+databases:
+  - name: computer-lending-db
+    plan: free
+    region: frankfurt
+    postgresMajorVersion: "16"
+    databaseName: computerlending
+    user: computerlending
+
+services:
+  - type: web
+    name: computer-lending-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        fromDatabase:
+          name: computer-lending-db
+          property: connectionString
+      - key: Jwt__Key
+        generateValue: true

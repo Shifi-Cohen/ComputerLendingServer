@@ -1,0 +1,8 @@
+.git
+.vs
+**/.vs
+**/bin
+**/obj
+**/logs
+**/*.user
+**/appsettings.Development.json
