@@ -381,13 +381,13 @@ npm create vite@latest computer-lending-client -- --template react
 
 ## שלב 13 – README ו-GitHub
 
-- [ ] `README.md` בשרת:
+- [x] `README.md` בשרת:
   - תיאור המערכת בפסקה.
   - פסקה על המשאב המוגבל: המחשב, איפה התחרות (`BorrowAsync`), ואיך המערכת מגיבה (עמודת `Version`, חריגה, 409, לוג Warning).
   - הוראות הרצה מקומית: הרצת PostgreSQL ב-Docker, connection string ו-`Jwt:Key` ב-`appsettings.json`, ו-`dotnet run`. ה-migrations וה-Seed רצים לבד בעליית השרת.
   - משתמשי דמו עם פרטי כניסה לכל role.
-- [ ] שני repositories ב-GitHub: שרת ולקוח, בלי `bin`, `obj`, `node_modules`, `*.db`, `logs`.
-- [ ] בדיקת "מחשב נקי": clone לתיקייה חדשה, והרצה לפי ה-README בלבד.
+- [x] שני repositories ב-GitHub: שרת ולקוח, בלי `bin`, `obj`, `node_modules`, `*.db`, `logs`.
+- [x] בדיקת "מחשב נקי": clone לתיקייה חדשה, והרצה לפי ה-README בלבד.
 
 ---
 
