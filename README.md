@@ -8,7 +8,7 @@
 
 ## הרצה מקומית
 
-צריך Docker עם PostgreSQL. מעתיקים את `ComputerLending.API/appsettings.Development.example.json` ל-`appsettings.Development.json` (הקובץ הזה לא נכנס לגיט) וממלאים בו את ה-connection string, את `Jwt:Key`, ואת סיסמאות ה-Seed. המשתמש, הסיסמה והפורט של הקונטיינר צריכים להתאים ל-connection string.
+צריך Docker עם PostgreSQL. מעתיקים את `ComputerLending.API/appsettings.Development.example.json` ל-`appsettings.Development.json` (הקובץ הזה לא נכנס לגיט) וממלאים בו את סיסמת ה-DB ב-connection string ואת `Jwt:Key` (לפחות 32 תווים). סיסמאות ה-Seed של משתמשי הדמו כבר מולאו בקובץ הדוגמה. המשתמש, הסיסמה והפורט של הקונטיינר צריכים להתאים ל-connection string.
 
 ```bash
 docker run --name pg -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=YOUR_PASSWORD_HERE -p 5432:5432 -d postgres
@@ -32,8 +32,10 @@ dotnet run --project ComputerLending.API --launch-profile http
 
 | תפקיד | אימייל | סיסמה |
 | --- | --- | --- |
-| Admin | admin@demo.com | הערך של `Seed:AdminPassword` |
-| Borrower | user@demo.com | הערך של `Seed:BorrowerPassword` |
+| Admin | admin@demo.com | `Admin123!` |
+| Borrower | user@demo.com | `User123!` |
+
+אלה סיסמאות דמו בלבד, והן מוגדרות ב-`Seed:AdminPassword` וב-`Seed:BorrowerPassword` (בקובץ הדוגמה הן כבר מולאות). ה-Seed רץ רק כשמסד הנתונים ריק, ולכן אם המסד כבר נוצר עם סיסמאות אחרות, הסיסמאות שם הן שתקפות. סיסמאות אמיתיות לא נשמרות בקוד.
 
 Admin נוצר רק ב-Seed. הרשמה דרך ה-API יוצרת Borrower.
 
